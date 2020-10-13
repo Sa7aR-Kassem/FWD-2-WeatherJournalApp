@@ -1,5 +1,6 @@
 /* Global Variables */
 let baseURL = 'https://api.openweathermap.org/data/2.5/weather?q=';
+const icons = document.querySelectorAll('.entry__icon');
 
 // Create a new date instance dynamically with JS
 let d = new Date();
@@ -76,9 +77,13 @@ const updateWeatherUI = async () => {
     try {
         const newData = await response.json();
         console.log(newData);
+        // show icons on the page
+        icons.forEach(icon => icon.style.opacity = '1');
+        // update new entry values
         document.getElementById('date').innerHTML = newData.date;
         document.getElementById('temp').innerHTML = newData.temp;
         document.getElementById('content').innerHTML = newData.res;
+
         return newData;
     } catch (error) {
         console.log("error", error);
