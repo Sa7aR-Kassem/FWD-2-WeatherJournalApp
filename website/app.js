@@ -1,6 +1,7 @@
 /* Global Variables */
 const baseURL = 'https://api.openweathermap.org/data/2.5/weather?q=';
 const submitedInfo = document.querySelectorAll('.submited');
+const units = '&units=metric';
 
 // Create a new date instance dynamically with JS
 let d = new Date();
@@ -16,7 +17,7 @@ document.getElementById('generate').addEventListener('click', subimtWeatherForm)
 function subimtWeatherForm() {
     let zipCode = document.getElementById('zip').value;
     let feelings = document.getElementById('feelings').value;
-    getWeatherData(baseURL, zipCode, apiKey).then(res => {
+    getWeatherData(baseURL, zipCode, apiKey, units).then(res => {
         postWeatherData('/postWeather', {
             temp: res.main.temp,
             date: newDate,
@@ -31,8 +32,8 @@ function subimtWeatherForm() {
 }
 
 /* Function to GET Web API Data*/
-const getWeatherData = async (baseURL, zipCode, apiKey) => {
-    const response = await fetch(baseURL + zipCode + apiKey);
+const getWeatherData = async (baseURL, zipCode, apiKey, units) => {
+    const response = await fetch(baseURL + zipCode + apiKey + units);
     console.log(response);
 
     try {
