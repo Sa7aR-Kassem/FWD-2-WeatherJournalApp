@@ -1,13 +1,13 @@
 /* Global Variables */
-let baseURL = 'https://api.openweathermap.org/data/2.5/weather?q=';
-const icons = document.querySelectorAll('.entry__icon');
+const baseURL = 'https://api.openweathermap.org/data/2.5/weather?q=';
+const submitedInfo = document.querySelectorAll('.submited');
 
 // Create a new date instance dynamically with JS
 let d = new Date();
 let newDate = d.getMonth() + '.' + d.getDate() + '.' + d.getFullYear();
 
 // Personal API Key for OpenWeatherMap API
-let apiKey = '&appid=04b529fe911559f19ead8ed192d2fef6';
+const apiKey = '&appid=04b529fe911559f19ead8ed192d2fef6';
 
 // Event listener to add function to existing HTML DOM element
 document.getElementById('generate').addEventListener('click', subimtWeatherForm);
@@ -20,7 +20,8 @@ function subimtWeatherForm() {
         postWeatherData('/postWeather', {
             temp: res.main.temp,
             date: newDate,
-            userResponse: feelings
+            userResponse: feelings,
+            name: res.name
         });
     }).then(
         res => {
@@ -55,7 +56,8 @@ const postWeatherData = async (url = '', weatherObj = '') => {
         body: JSON.stringify({
             temp: weatherObj.temp,
             date: weatherObj.date,
-            userResponse: weatherObj.userResponse
+            userResponse: weatherObj.userResponse,
+            name: weatherObj.name
         }),
     });
 
@@ -77,12 +79,11 @@ const updateWeatherUI = async () => {
     try {
         const newData = await response.json();
         console.log(newData);
-        // show icons on the page
-        icons.forEach(icon => icon.style.opacity = '1');
-        // update new entry values
+        submitedInfo.forEach(item => item.style.opacity = '1');
         document.getElementById('date').innerHTML = newData.date;
-        document.getElementById('temp').innerHTML = newData.temp;
+        document.getElementById('temp').innerHTML = Math.round(newData.temp);
         document.getElementById('content').innerHTML = newData.res;
+        document.getElementById('name').innerHTML = newData.name;
 
         return newData;
     } catch (error) {
